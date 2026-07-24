@@ -1,3 +1,4 @@
+import os
 import re
 import time
 from urllib.parse import urlparse
@@ -16,6 +17,11 @@ app = FastAPI(
     version="1.0.0",
 )
 
+# Safely create the static directory if it does not exist on the host server
+if not os.path.exists("static"):
+    os.makedirs("static", exist_ok=True)
+
+# Mount static files and templates
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
@@ -26,6 +32,7 @@ class AuditRequest(BaseModel):
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
+    """Serves the frontend URL audit interface."""
     return templates.TemplateResponse(
         request=request, name="index.html", context={"title": "URL Audit Tool"}
     )
@@ -33,6 +40,8 @@ async def read_root(request: Request):
 
 @app.post("/api/audit")
 async def audit_url(payload: AuditRequest):
+    """Fetches target page, measures metrics, parses HTML SEO elements,"""
+    """and handles edge cases cleanly."""
     target_url = payload.url.strip()
 
     # 1. Normalize and Validate URL Scheme
@@ -80,9 +89,7 @@ async def audit_url(payload: AuditRequest):
     except requests.exceptions.RequestException as e:
         return JSONResponse(
             status_code=400,
-            content={
-                "error": f"Failed to retrieve URL: {type(e).__name__}"
-            },
+            content={"error": f"Failed to retrieve URL: {type(e).__name__}"},
         )
 
     # 3. Validate Content Type (Ensure response is HTML)
@@ -127,7 +134,9 @@ async def audit_url(payload: AuditRequest):
         )
 
         # Approximate Word Count
-        for element in soup(["script", "style", "noscript", "header", "footer", "nav"]):
+        for element in soup(
+            ["script", "style", "noscript", "header", "footer", "nav"]
+        ):
             element.extract()
         visible_text = soup.get_text(separator=" ")
         words = re.findall(r"\w+", visible_text)
