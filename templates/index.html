@@ -3,29 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
+    <title>Page Pulser</title>
     <style>
         :root {
-            --bg: #090d16;
-            --card-bg: #111827;
-            --border: #1f2937;
-            --text: #f9fafb;
-            --text-muted: #9ca3af;
-            --accent: #0ea5e9;
-            --accent-hover: #0284c7;
-            --danger: #ef4444;
-            --success: #10b981;
+            --bg: #07090e;
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --card-hover: rgba(30, 41, 59, 0.8);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(14, 165, 233, 0.3);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.25);
+            --danger: #f87171;
+            --danger-bg: rgba(239, 68, 68, 0.12);
+            --success: #34d399;
+            --success-bg: rgba(52, 211, 153, 0.12);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
             background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.05) 0px, transparent 50%);
             color: var(--text);
             min-height: 100vh;
             display: flex;
@@ -35,50 +42,75 @@
 
         header {
             width: 100%;
-            padding: 1.25rem 2rem;
-            background-color: var(--card-bg);
+            padding: 1.25rem 2.5rem;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .logo {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--accent);
+            font-weight: 800;
+            font-size: 1.35rem;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.02em;
         }
 
         main {
-            max-width: 900px;
+            max-width: 960px;
             width: 90%;
-            margin: 3rem auto;
+            margin: 3.5rem auto;
         }
 
         .hero {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .hero h1 {
-            font-size: 2.25rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero p {
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 1.1rem;
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
 
         .search-box {
             display: flex;
             gap: 0.75rem;
-            background-color: var(--card-bg);
-            padding: 0.75rem;
-            border-radius: 12px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            padding: 0.6rem;
+            border-radius: 14px;
             border: 1px solid var(--border);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 25px var(--accent-glow);
         }
 
         .search-box input {
@@ -87,153 +119,243 @@
             border: none;
             outline: none;
             color: var(--text);
-            font-size: 1rem;
-            padding: 0.5rem 0.75rem;
+            font-size: 1.05rem;
+            padding: 0.6rem 1rem;
+        }
+
+        .search-box input::placeholder {
+            color: #64748b;
         }
 
         .search-box button {
-            background-color: var(--accent);
-            color: #000;
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: #ffffff;
             border: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.8rem 1.75rem;
             font-weight: 600;
-            border-radius: 8px;
+            font-size: 0.95rem;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
         }
 
         .search-box button:hover {
-            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
         }
 
         .search-box button:disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
 
         .error-card {
-            background-color: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: var(--danger-bg);
+            border: 1px solid rgba(248, 113, 113, 0.3);
             color: var(--danger);
-            padding: 1rem 1.25rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
+            padding: 1.1rem 1.4rem;
+            border-radius: 12px;
+            margin-bottom: 2.5rem;
             display: none;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
         }
 
         .results-container {
             display: none;
             flex-direction: column;
             gap: 1.5rem;
+            animation: slideUp 0.4s ease forwards;
         }
 
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 1.25rem;
         }
 
         .metric-card {
-            background-color: var(--card-bg);
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1.25rem;
+            border-radius: 14px;
+            padding: 1.35rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--border-glow), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(56, 189, 248, 0.3);
+            background: var(--card-hover);
+        }
+
+        .metric-card:hover::before {
+            opacity: 1;
+        }
+
+        .metric-card .icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            opacity: 0.8;
         }
 
         .metric-card .label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             color: var(--text-muted);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
         }
 
         .metric-card .value {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--text);
+            letter-spacing: -0.02em;
         }
 
+        /* Detail Cards for Title & Meta Description */
         .detail-card {
-            background-color: var(--card-bg);
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 14px;
             padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .detail-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            background: var(--card-hover);
         }
 
         .detail-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.75rem;
-            color: var(--text);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .detail-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.6;
             word-break: break-word;
         }
 
         .badge-status {
-            display: inline-block;
-            padding: 0.25rem 0.6rem;
-            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 600;
         }
 
-        .badge-200 { background-color: rgba(16, 185, 129, 0.15); color: var(--success); }
-        .badge-err { background-color: rgba(239, 68, 68, 0.15); color: var(--danger); }
+        .badge-200 { 
+            background: var(--success-bg); 
+            color: var(--success); 
+            border: 1px solid rgba(52, 211, 153, 0.25);
+        }
+        
+        .badge-err { 
+            background: var(--danger-bg); 
+            color: var(--danger); 
+            border: 1px solid rgba(248, 113, 113, 0.25);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">🔍 Web Audit Engine</div>
+        <div class="logo">⚡ Page Pulser</div>
     </header>
 
     <main>
         <div class="hero">
-            <h1>Web Page Audit Tool</h1>
-            <p>Enter any URL below to inspect performance, SEO tags, and content metrics.</p>
+            <h1>Page Pulser</h1>
+            <p>Analyze response times, SEO tags, missing alt text, and page content metrics in real-time.</p>
         </div>
 
         <form class="search-box" id="audit-form" onsubmit="runAudit(event)">
-            <input type="text" id="url-input" placeholder="https://example.com" required autocomplete="off">
-            <button type="submit" id="submit-btn">Audit URL</button>
+            <input type="text" id="url-input" placeholder="Enter target URL (e.g. digitalheroesco.com)" required autocomplete="off">
+            <button type="submit" id="submit-btn">Pulse URL</button>
         </form>
 
         <div id="error-box" class="error-card"></div>
 
         <div id="results" class="results-container">
+            <!-- Metrics Grid -->
             <div class="metrics-grid">
                 <div class="metric-card">
+                    <div class="icon">🌐</div>
                     <div class="label">HTTP Status</div>
                     <div class="value" id="res-status">-</div>
                 </div>
                 <div class="metric-card">
+                    <div class="icon">⚡</div>
                     <div class="label">Response Time</div>
                     <div class="value" id="res-time">-</div>
                 </div>
                 <div class="metric-card">
+                    <div class="icon">🏷️</div>
                     <div class="label">H1 Headings</div>
                     <div class="value" id="res-h1">-</div>
                 </div>
                 <div class="metric-card">
-                    <div class="label">Images Missing Alt</div>
+                    <div class="icon">🖼️</div>
+                    <div class="label">Missing Alt Text</div>
                     <div class="value" id="res-alt">-</div>
                 </div>
                 <div class="metric-card">
+                    <div class="icon">📝</div>
                     <div class="label">Approx Word Count</div>
                     <div class="value" id="res-words">-</div>
                 </div>
             </div>
 
+            <!-- Page Title Section -->
             <div class="detail-card">
-                <h3>Page Title</h3>
+                <h3>📌 Page Title</h3>
                 <p id="res-title">-</p>
             </div>
 
+            <!-- Meta Description Section -->
             <div class="detail-card">
-                <h3>Meta Description</h3>
+                <h3>📄 Meta Description</h3>
                 <p id="res-desc">-</p>
             </div>
         </div>
@@ -250,11 +372,10 @@
 
             if (!urlInput) return;
 
-            // Reset state
             errorBox.style.display = 'none';
             resultsContainer.style.display = 'none';
             submitBtn.disabled = true;
-            submitBtn.innerText = 'Auditing...';
+            submitBtn.innerText = 'Analyzing...';
 
             try {
                 const response = await fetch('/api/audit', {
@@ -269,13 +390,15 @@
                     throw new Error(data.error || 'An unexpected server error occurred.');
                 }
 
-                // Render metrics
-                const statusBadge = `<span class="badge-status ${data.status_code === 200 ? 'badge-200' : 'badge-err'}">${data.status_code}</span>`;
+                // Render status badge and numerical metrics
+                const statusBadge = `<span class="badge-status ${data.status_code === 200 ? 'badge-200' : 'badge-err'}">${data.status_code === 200 ? '● ' : '▲ '}${data.status_code}</span>`;
                 document.getElementById('res-status').innerHTML = statusBadge;
                 document.getElementById('res-time').innerText = `${data.response_time_ms} ms`;
                 document.getElementById('res-h1').innerText = data.h1_count;
                 document.getElementById('res-alt').innerText = `${data.images_missing_alt} / ${data.total_images}`;
                 document.getElementById('res-words').innerText = data.word_count.toLocaleString();
+
+                // Render Title & Meta Description
                 document.getElementById('res-title').innerText = data.page_title;
                 document.getElementById('res-desc').innerText = data.meta_description;
 
@@ -285,7 +408,7 @@
                 errorBox.style.display = 'block';
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.innerText = 'Audit URL';
+                submitBtn.innerText = 'Pulse URL';
             }
         }
     </script>
