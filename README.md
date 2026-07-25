@@ -1,18 +1,37 @@
-# 🔍 Web Page Audit Engine (Task B)
+#  Page Pulser — Web Page Audit Tool
 
-A lightweight web auditing tool built with **FastAPI** and **BeautifulSoup4**. It accepts any URL, retrieves the document, and generates an SEO and structural audit report.
+**Page Pulser** is a full-stack, lightweight web auditing platform built with **FastAPI** and **BeautifulSoup4**. It accepts any web page URL, inspects its HTTP health and performance, parses critical SEO elements, and calculates content metrics in real-time.
 
 ---
 
-## 🚀 Setup & Local Execution
+##  Features
 
-### Prerequisites
-- Python 3.10+
-- `pip` package manager
+-  **HTTP & Performance Tracking:** Measures server status codes and fetch response latecy in milliseconds.
+-  **SEO & HTML Analysis:** Extracts `<title>` tags, meta descriptions, and evaluates `<h1>` heading counts.
+-  **Accessibility Auditing:** Scans all embedded `<img>` tags to identify images missing necessary `alt` text.
+-  **Clean Word Count Calculation:** Strips out non-body script, style, navigation, and header/footer elements to compute accurate visible text length.
+-  **Resilient Error Handling:** Prevents crashes by safely managing invalid URL structures, connection timeouts, and non-HTML payloads (e.g., direct JSON, PDF, or image files).
+-  **Modern Glassmorphic UI:** Features dynamic status badges, smooth entry animations, metric indicators, and real-time state management.
 
-### 1. Installation
-Clone the repository and install required dependencies:
-```bash
-git clone [https://github.com/nishitar931/url-auditor-tool.git](https://github.com/nishitar931/url-auditor-tool.git)
-cd url-auditor-tool
-pip install -r requirements.txt
+---
+
+## Tech Stack
+
+- **Backend:** Python 3.10+, FastAPI, BeautifulSoup4, Requests, Pydantic
+- **Frontend:** Jinja2 Templates, Modern CSS3 (Variables, Flexbox, CSS Grid, Glassmorphism), JavaScript (Fetch API)
+- **Testing:** Pytest, FastAPI TestClient, Unittest Mock
+- **Deployment:** Render / Cloud Web Services
+
+---
+
+##  Repository Structure
+
+```text
+url-auditor-tool/
+├── main.py              # FastAPI application server and parsing engine
+├── test_main.py         # Pytest test suite (happy path & failure cases)
+├── requirements.txt     # Python dependencies
+├── README.md            # Project documentation
+├── static/              # Static assets and .gitkeep
+└── templates/
+    └── index.html       # Page Pulser frontend user interface
